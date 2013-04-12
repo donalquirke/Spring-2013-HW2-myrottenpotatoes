@@ -1,4 +1,10 @@
 Rottenpotatoes::Application.configure do
+
+# in config/environments/production.rb:
+# BEFORE - what 'rails new' generates for production.rb (l.18):
+  config.assets.compile = false
+# AFTER - this is what you should change it to:
+  config.assets.compile = true
   # Settings specified here will take precedence over those in config/application.rb
 
   # Code is not reloaded between requests
