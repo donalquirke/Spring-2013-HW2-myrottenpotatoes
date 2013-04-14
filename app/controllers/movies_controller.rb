@@ -1,5 +1,14 @@
 class MoviesController < ApplicationController
 
+  def get_ratings
+    ratings= Array.new
+    @movies=Movie.find(:all)
+    @movies.each do |m|
+      ratings<< m.rating unless ratings.include?(m.rating)
+    end
+    return ratings
+  end
+
   def show
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
@@ -16,7 +25,7 @@ class MoviesController < ApplicationController
     else
        @movies = Movie.find(:all)    
     end
-
+    @all_ratings=get_ratings
 
   end
 
@@ -47,5 +56,7 @@ class MoviesController < ApplicationController
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
   end
+
+
 
 end
