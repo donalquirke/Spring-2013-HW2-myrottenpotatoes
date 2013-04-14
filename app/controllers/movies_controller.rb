@@ -8,6 +8,11 @@ class MoviesController < ApplicationController
 
   def index
     @movies = Movie.all
+    if params[:order] == "1"
+       @movies.sort! { |a,b| a.title.downcase <=> b.title.downcase }   
+    elsif params[:order] == "2"
+       @movies.sort! { |a,b| a.release_date <=> b.release_date }    
+    end
   end
 
   def new
