@@ -16,8 +16,8 @@ class MoviesController < ApplicationController
   end
 
   def index
-    debugger
     @all_ratings=get_ratings
+    params.has_key?(:filter) ? @checked_ratings=params[:filter] : @checked_ratings=@all_ratings
     @checked_ratings=params[:ratings].keys if params.has_key?(:ratings) 
     if params[:order] == "1"
        params.has_key?(:filter) ? @movies = Movie.where(:rating => params[:filter]).order("title") :  @movies = Movie.find(:all, :order => "title")
