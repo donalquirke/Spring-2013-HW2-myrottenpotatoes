@@ -16,18 +16,21 @@ class MoviesController < ApplicationController
   end
 
   def index
+    debugger
+    @all_ratings=get_ratings
+    @checked_ratings=params[:ratings].keys if params.has_key?(:ratings) 
     if params[:order] == "1"
-       @movies = Movie.find(:all, :order => "title")
+       params.has_key?(:filter) ? @movies = Movie.where(:rating => params[:filter]).order("title") :  @movies = Movie.find(:all, :order => "title")
        @hilite_title="Y"
-    elsif params[:order] == "2"
-       @movies = Movie.find(:all, :order => "release_date")
+    elsif params[:order] == "2"       
+       params.has_key?(:filter) ? @movies = Movie.where(:rating => params[:filter]).order("release_date") : @movies = Movie.find(:all, :order => "release_date")
        @hilite_release_date="Y"
     else
-       @movies = Movie.find(:all)    
+       #params.has_key?(:ratings) ? @movies = Movie.find_all_by_rating(@checked_ratings) : @movies = Movie.find(:all)
+       params.has_key?(:ratings) ? @movies = Movie.where(:rating => @checked_ratings) : @movies = Movie.find(:all)
     end
-    @all_ratings=get_ratings
-
   end
+  
 
   def new
     # default: render 'new' template
